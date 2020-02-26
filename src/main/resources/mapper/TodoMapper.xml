@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ 
+<mapper namespace="bufs.english.english_community.todolist.dao.TodoMapper">
+    
+    <resultMap id="TodoList" type="bufs.english.english_community.todolist.dto.TodoDTO">
+        <result column="Todo_id" property="id"/>
+        <result column="Todo_text" property="text"/>
+        <result column="Todo_checked" property="checked"/>
+        <result column="Todo-color" property="color"/>
+    </resultMap>
+
+    <insert id="InsertTodo">
+        INSERT Into Todolist values(#{id},#{text},#{checked},#{color});
+    </insert>
+
+    <delete id="DeleteTodo">
+        Delete from Todolist where id=#{id};
+    </delete>
+
+    <update id="UpdateTodo">
+        Update Todolist set checked = if(checked is true,'0','1') where id =#{id}
+    </update>
+
+    <select id="SelectTodo" resultMap="TodoList">
+        Select * from Todolist;
+    </select>
+</mapper>
+

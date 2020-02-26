@@ -1,0 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean); /*한글 폰트 */
+
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script:600&display=swap);   /* Todo 폰트 */
+
+
+.main { font-size: 24px;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-weight: bold;
+    }
+

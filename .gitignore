@@ -102,3 +102,37 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
+
+.classpath
+.factorypath
+*.prefs
+.project
+mvnw.cmd
+package-lock.json
+
+#target folder
+target/
+
+#private!
+application.yml
+*.jpg
+.mvn
+.vscode
+.target
