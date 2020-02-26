@@ -31,8 +31,8 @@ public class LoginService{
                 .nickname(userinfo.getNickname())
                 .build()
         );
-        User user = 
-        AssertTrue()
+        // User user = 
+        // AssertTrue()
         return true;
     }
 

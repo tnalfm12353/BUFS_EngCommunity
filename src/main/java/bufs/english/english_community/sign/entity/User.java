@@ -65,9 +65,9 @@ public class User{
 
         return user;
     }
-    public static String isExist(LoginDTO.isNickExist nickname){
-        String nick = ModelMapperUtil.getModelMapper().map(nickname, User.class.);
+    // public static String isExist(LoginDTO.isNickExist nickname){
+    //     String nick = ModelMapperUtil.getModelMapper().map(nickname, User.class.);
 
-        return nick;
-    }
+    //     return nick;
+    // }
 }
