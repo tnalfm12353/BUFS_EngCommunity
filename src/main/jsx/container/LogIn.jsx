@@ -17,18 +17,20 @@ class LogIn extends React.Component{
             validID:false,
             validPW:false,
             validCP:false,
+            validNick:false,
+            isIdExist:false,
             isNickExist:false,
+
+            idErrorMSG:'4~12자 이상 영어+숫자',
+            nickErrorMSG:'특수문자를 제외한 2~10자',
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
-        this.isNicknameExist = this.isNicknameExist.bind(this);
+        // this.isNicknameExist = this.isNicknameExist.bind(this);
     }
-    shouldComponentUpdate(nextProps,nextState){
-        const {id,pw,checkPw,nickname} = this.state
-        return id !== nextState.id || pw !== nextState.pw || checkPw !== nextState.checkPw || nickname !== nextState.nickname;
-    }
+    
     /* -------------------- input 값 받기 ------------------------------*/
     
     handleChange(e){
@@ -39,18 +41,20 @@ class LogIn extends React.Component{
     validation(e){
         const check=/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,12}$/;
         const pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
+        const nickCheck = /^[가-힣|a-z|A-Z|0-9].{1,10}$/;
+        const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
         if([e.target.name] == "id"){
             if(check.test(e.target.value)){
-
                 this.setState({
                     validID:true
                 });
+                this.isExist(e.target.name,e.target.value);
             }else{
                 this.setState({
-                    validID:false
+                    validID:false,
+                    idErrorMSG:"4~12자 이상 영어+숫자",
                 });
             }
-            console.log(e.target.value);
         }
 
         if([e.target.name] == "pw"){
@@ -73,28 +77,61 @@ class LogIn extends React.Component{
             }else{
                 this.setState({
                     validCP:false
-                })
+                });
             }
         }
-
+        if([e.target.name] == "nickname"){
+            if(nickCheck.test(e.target.value)&& !regExp.test(e.target.value)){
+                this.setState({
+                    validNick:true
+                });
+                this.isExist(e.target.name,e.target.value);
+            }else{
+                this.setState({
+                    validNick:false,
+                    isNickExist:false,
+                    nickErrorMSG:"특수문자를 제외한 2~10자"
+                });
+            }
+        }
+    }
+    /* -------------------- Error Message ------------------------------*/
+    nicknameErrorMSG(data){
+        if(!data){
+            this.setState({nickErrorMSG:"중복된 닉네임 입니다!"});
+        }else{
+            this.setState({nickErrorMSG:''});
+        }
 
     }
 
+    idErrorMSG(data){
+        if(!data){
+            this.setState({idErrorMSG:"중복된 아이디 입니다!"});
+        }else{
+            this.setState({idErrorMSG:''});
+        }
+    }
+    
     /* -------------------- DB function ------------------------------*/
-    isNicknameExist(){
-        const {nickname} = this.state;
+    isExist(name,exist){
 
-        let nick = JSON.stringify({nickname:nickname });
-        
+        let data = JSON.stringify({ being:exist});
+        const mappingValue = '/Valid'+name;
+
         axios
-            .post('/ValidNickname', nick, {
+            .post(mappingValue, data, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json;charset=UTF-8'
                 }
             })
             .then(function (response) {
-                this.setState({isNickExist: response});
+                if(name === "id"){
+                    this.setState({isIdExist: response.data},this.idErrorMSG(response.data));
+                }else if(name === "nickname"){
+                    this.setState({isNickExist: response.data},this.nicknameErrorMSG(response.data));
+                }
             }.bind(this))
             .catch(function (error) {
                 console.log(error);
@@ -104,10 +141,10 @@ class LogIn extends React.Component{
 
     handleSignUp(){
         const {id,pw,nickname} = this.state;
-        const {validID,validPW,validCP,isNickExist} =this.state;
+        const {isIdExist,validPW,validCP,isNickExist} =this.state;
 
         let user = JSON.stringify({id:id, pw:pw, nickname:nickname });
-        if(validID||validPW||validCP||isNickExist){
+        if(isIdExist&&validPW&&validCP&&isNickExist){
             axios
                 .post('/SignUp', user, {
                     headers: {
@@ -128,8 +165,8 @@ class LogIn extends React.Component{
 
     render(){
         const {isLogIn,isSignUp,onLogin,onSignUp,onClose} = this.props;
-        const {id,pw,nickname,validID,validPW,validCP,isNickExist} =this.state;
-        const {handleChange,handleSignUp,isNicknameExist} = this;
+        const {id,pw,nickname,validPW,validCP,isIdExist,isNickExist,nickErrorMSG,idErrorMSG} =this.state;
+        const {handleChange,handleSignUp} = this;
         return(
             <React.Fragment>
                 <Overlay onClick={()=>onClose()}>
@@ -141,7 +178,6 @@ class LogIn extends React.Component{
                         <Content>
                             {isLogIn?
                             <SignInForm
-                                onClose = {onClose}
                                 id={id}
                                 pw={pw}
 
@@ -149,17 +185,17 @@ class LogIn extends React.Component{
                             />
                             :
                             <SignUpForm
-                                onClose = {onClose}
-
                                 id={id}
                                 pw={pw}
                                 nickname={nickname}
-                                validID ={validID}
+                                /*validation*/
                                 validPW ={validPW}
                                 validCP ={validCP}
+                                isIdExist ={isIdExist}
                                 isNickExist={isNickExist}
 
-                                validation = {isNicknameExist}
+                                idErrorMSG = {idErrorMSG}
+                                nickErrorMSG = {nickErrorMSG}
                                 onChange ={handleChange}
                                 signUp = {handleSignUp}
                             />

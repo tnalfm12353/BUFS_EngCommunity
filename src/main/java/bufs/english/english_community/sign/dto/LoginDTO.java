@@ -1,7 +1,5 @@
 package bufs.english.english_community.sign.dto;
 
-import bufs.english.english_community.sign.entity.User;
-import bufs.english.english_community.util.ModelMapperUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,11 +20,10 @@ public class LoginDTO {
     @Setter
     @Getter
     @NoArgsConstructor
-    public static class isNickExist{
-        private String nickname;
-        private boolean isExist;
+    public static class isExist{
+        private String being;
     }
-
+    
     @Setter
     @Getter
     @NoArgsConstructor

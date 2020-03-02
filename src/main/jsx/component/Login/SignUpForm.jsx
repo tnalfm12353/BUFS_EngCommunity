@@ -2,33 +2,35 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SignUpForm = ({id,pw,checkPw,nickname,
-                    validID,validPW,validCP,isNickExist,
-                    onChange,validation,signUp,onClose}) =>{
+                    nickErrorMSG,idErrorMSG,
+                    validPW,validCP,isIdExist,isNickExist,
+                    onChange,signUp}) =>{
     return(
         <LoginDiv>
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
-                <Input name="id" value={id} onChange={onChange} required="required" /*onBlur={validation}*//>
+                <Input name="id" value={id} onChange={onChange} required="required"/>
                 <Label>ID</Label>
-                <CheckedMark valid={validID}>{validID?"✓":"×"}</CheckedMark>
-                {validID?null:<Span>4~12자 이상 영어+숫자</Span>}
+                <CheckedMark valid={isIdExist}>{isIdExist?"✓":"×"}</CheckedMark>
+                {idErrorMSG === null ?null:<Span>{idErrorMSG}</Span>}
             </GroupDiv>
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
-                <Input type='password' name="pw"value={pw} onChange={onChange} required="required" /*onBlur={validation}*//>
+                <Input type='password' name="pw"value={pw} onChange={onChange} required="required"/>
                 <Label>Password</Label>
                 <CheckedMark valid={validPW}>{validPW?"✓":"×"}</CheckedMark>
                 {validPW?null:<Span>6~16자 영어+숫자+특수문자</Span>}
             </GroupDiv>
 
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
-                <Input type='password' name="checkPw"value={checkPw} onChange={onChange}required="required"/*onBlur={validation}*//>
+                <Input type='password' name="checkPw"value={checkPw} onChange={onChange}required="required"/>
                 <Label>Confirm Password</Label>
                 <CheckedMark valid={validCP}>{validCP?"✓":"×"}</CheckedMark>
             </GroupDiv>
 
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
-                <Input name="nickname" value={nickname} onChange={onChange} required="required" onBlur={validation} />
+                <Input name="nickname" value={nickname} onChange={onChange} required="required"  />
                 <Label>Nickname</Label>
                 <CheckedMark valid={isNickExist}>{isNickExist?"✓":"×"}</CheckedMark>
+                {nickErrorMSG === null ?null:<Span>{nickErrorMSG}</Span>}
             </GroupDiv>
             <LoginBtn onClick={()=>{signUp()}}>Sign Up</LoginBtn>
         </LoginDiv>

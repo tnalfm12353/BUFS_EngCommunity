@@ -4,21 +4,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 
-import bufs.english.english_community.sign.dto.LoginDTO;
-import bufs.english.english_community.util.ModelMapperUtil;
+import bufs.english.english_community.baseentity.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
+@Entity
 @Getter
 @ToString
-@Entity
-public class User{
+@NoArgsConstructor(access = AccessLevel.PROTECTED) /* 무분별한 Entity생성을 막기위함. */
+public class User extends BaseTimeEntity{
     /* 
         @GeneratedValue : 주 키의 값을 자동 생성하기 위해 명시하는 데 사용되는 어노테이션입니다.
         자동 생성 전략은 크게 (AUTO, IDENTITY, SEQUENCE, TABLE) 이 있습니다.
@@ -60,14 +58,4 @@ public class User{
         this.nickname = nickname;
     }
 
-    public static User of(LoginDTO.Userinfo userinfo){
-        User user = ModelMapperUtil.getModelMapper().map(userinfo, User.class);
-
-        return user;
-    }
-    // public static String isExist(LoginDTO.isNickExist nickname){
-    //     String nick = ModelMapperUtil.getModelMapper().map(nickname, User.class.);
-
-    //     return nick;
-    // }
 }

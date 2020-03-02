@@ -1,11 +1,6 @@
 package bufs.english.english_community.sign.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.AssertTrue;
 
 import org.modelmapper.ModelMapper;
 
@@ -23,7 +18,6 @@ public class LoginService{
     
 
     public boolean SignUp(LoginDTO.Userinfo userinfo){
-        LocalDateTime now = LocalDateTime.now();
         userRepository.save(
             User.builder()
                 .id(userinfo.getId())
@@ -31,16 +25,25 @@ public class LoginService{
                 .nickname(userinfo.getNickname())
                 .build()
         );
-        // User user = 
-        // AssertTrue()
+
         return true;
     }
 
-    public boolean ValidNickname(LoginDTO.isNickExist nickname){
-        //User user = User.isExist(nickname);
-        //System.out.println(user);
-        // isnickExist = userRepository.fin
-        return true;
+    public String ValidNickname(LoginDTO.isExist being){
+        String temp = userRepository.ValidNickname(being.getBeing());
+        if(temp == null){
+            return "true";
+        }else
+            return "false";
+    }
+
+    public String ValidID(LoginDTO.isExist being){
+        String temp = userRepository.ValidID(being.getBeing());
+        System.out.println(temp);
+        if(temp == null){
+            return "true";
+        }else
+            return "false";
     }
 
 }

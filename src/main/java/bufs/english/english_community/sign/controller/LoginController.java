@@ -37,16 +37,19 @@ public class LoginController{
 
     LoginService loginservice;
     
-    @PostMapping("ValidNickname")
-    public boolean ValidNickname(@RequestBody final LoginDTO.isNickExist nickname)throws Exception{
-        loginservice.ValidNickname(nickname);
-        return true;
+    @PostMapping("Validnickname")
+    public String ValidNickname(@RequestBody final LoginDTO.isExist being)throws Exception{
+        return loginservice.ValidNickname(being);
+        
+    }
+    @PostMapping("Validid")
+    public String ValidID(@RequestBody final LoginDTO.isExist being)throws Exception{
+        return loginservice.ValidID(being);
     }
 
     @PostMapping("SignUp")
     public boolean SignUp(@RequestBody final LoginDTO.Userinfo userinfo)throws Exception{
-        loginservice.SignUp(userinfo);
-        return true;
+        return loginservice.SignUp(userinfo);
     }
 
 }
