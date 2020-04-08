@@ -3,6 +3,7 @@ package bufs.english.english_community.sign.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import bufs.english.english_community.baseentity.BaseTimeEntity;
@@ -27,7 +28,7 @@ public class User extends BaseTimeEntity{
         TABLE	        데이터베이스에 키 생성 전용 테이블을 하나 만들고 이를 사용하여 기본키를 생성한다
     */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long code;
 
     @Column(length= 20, nullable = false)

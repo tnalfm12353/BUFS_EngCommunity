@@ -48,8 +48,13 @@ public class LoginController{
     }
 
     @PostMapping("SignUp")
-    public boolean SignUp(@RequestBody final LoginDTO.Userinfo userinfo)throws Exception{
-        return loginservice.SignUp(userinfo);
+    public boolean SignUp(@RequestBody final LoginDTO.SignUp signup)throws Exception{
+        return loginservice.SignUp(signup);
+    }
+
+    @PostMapping("Login")
+    public LoginDTO.Userinfo Login(@RequestBody final LoginDTO.Login login)throws Exception{
+        return loginservice.Login(login);
     }
 
 }

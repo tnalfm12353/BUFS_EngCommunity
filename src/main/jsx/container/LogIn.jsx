@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import debounce from 'debounce';
+import axios from 'axios';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as userActions from '../redux/modules/LoginUser';
 
 import SignInForm from '../component/Login/LogInForm.jsx';
 import SignUpForm from '../component/Login/SignUpForm.jsx';
-import axios from 'axios';
 class LogIn extends React.Component{
 
     constructor(props){
@@ -28,71 +33,57 @@ class LogIn extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
-        // this.isNicknameExist = this.isNicknameExist.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+        /* db delay */
+        this.isExist = debounce(this.isExist,300);
     }
-    
+  
+
     /* -------------------- input 값 받기 ------------------------------*/
-    
     handleChange(e){
         this.setState({[e.target.name]:e.target.value},this.validation(e))
     }
 
-    /* -------------------- Login Validation ------------------------------*/
-    validation(e){
-        const check=/^(?=.*[a-zA-Z])(?=.*[0-9]).{4,12}$/;
+    /* -------------------- Validation ------------------------------*/
+        validation(e) {
+        const isSignUp = this.props;
+        console.log(isSignUp);
+        const check = /^(?=.*[a-zA-Z]).{4,12}$/;
         const pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
         const nickCheck = /^[가-힣|a-z|A-Z|0-9].{1,10}$/;
         const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
-        if([e.target.name] == "id"){
-            if(check.test(e.target.value)){
-                this.setState({
-                    validID:true
-                });
-                this.isExist(e.target.name,e.target.value);
-            }else{
-                this.setState({
-                    validID:false,
-                    idErrorMSG:"4~12자 이상 영어+숫자",
-                });
-            }
-        }
-
-        if([e.target.name] == "pw"){
-            if(pwCheck.test(e.target.value)){
-                this.setState({
-                    validPW:true
-                });
-            }else{
-                this.setState({
-                    validPW:false
-                })
-            }
-        }
-        
-        if([e.target.name] == "checkPw"){
-            if(e.target.value === this.state.pw){
-                this.setState({
-                    validCP:true
-                });
-            }else{
-                this.setState({
-                    validCP:false
-                });
-            }
-        }
-        if([e.target.name] == "nickname"){
-            if(nickCheck.test(e.target.value)&& !regExp.test(e.target.value)){
-                this.setState({
-                    validNick:true
-                });
-                this.isExist(e.target.name,e.target.value);
-            }else{
-                this.setState({
-                    validNick:false,
-                    isNickExist:false,
-                    nickErrorMSG:"특수문자를 제외한 2~10자"
-                });
-            }
+        switch(e.target.name){
+            case "id":
+                if (check.test(e.target.value) && !regExp.test(e.target.value)) {
+                    this.setState({validID: true});
+                    //왜 안대지? 추후 고치자
+                    isSignUp===true ? this.isExist(e.target.name, e.target.value):null;
+                } else {
+                    this.setState({validID: false, isIdExist: false, idErrorMSG: "특수문자를 제외한 4~12자"});
+                }break;
+            case "pw":
+                if (pwCheck.test(e.target.value)) {
+                    this.setState({validPW: true});
+                } else {
+                    this.setState({validPW: false});
+                }break;
+            case "checkPw":
+                if (e.target.value === this.state.pw) {
+                    this.setState({validCP: true});
+                } else {
+                    this.setState({validCP: false});
+                }break;
+            case 'nickname':
+                if (nickCheck.test(e.target.value) && !regExp.test(e.target.value)) {
+                    this.setState({validNick: true});
+                    this.isExist(e.target.name, e.target.value);
+                } else {
+                    this.setState(
+                        {validNick: false, isNickExist: false, nickErrorMSG: "특수문자를 제외한 2~10자"}
+                    );
+                }break;
+            default:
+                console.log("어캐 default로 올수 있죠???????????");
         }
     }
     /* -------------------- Error Message ------------------------------*/
@@ -112,10 +103,10 @@ class LogIn extends React.Component{
             this.setState({idErrorMSG:''});
         }
     }
-    
+
     /* -------------------- DB function ------------------------------*/
     isExist(name,exist){
-
+        console.log("isExist");
         let data = JSON.stringify({ being:exist});
         const mappingValue = '/Valid'+name;
 
@@ -163,10 +154,35 @@ class LogIn extends React.Component{
         }
     }
 
+    handleLogin(){
+        const { UserActions } = this.props;
+        const {id,pw,validPW,validID} =this.state;
+        let login = JSON.stringify({id:id,pw:pw});
+        
+        if(validID&&validPW){
+            axios
+                .post('/Login',login,{
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    }
+                })
+                .then(function (response) {
+                    if(response){
+                        UserActions.setLoginInfo(response.data);
+                        this.props.onClose();
+                    }
+                }.bind(this))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }
+
     render(){
         const {isLogIn,isSignUp,onLogin,onSignUp,onClose} = this.props;
         const {id,pw,nickname,validPW,validCP,isIdExist,isNickExist,nickErrorMSG,idErrorMSG} =this.state;
-        const {handleChange,handleSignUp} = this;
+        const {handleChange,handleSignUp,handleLogin} = this;
         return(
             <React.Fragment>
                 <Overlay onClick={()=>onClose()}>
@@ -180,7 +196,8 @@ class LogIn extends React.Component{
                             <SignInForm
                                 id={id}
                                 pw={pw}
-
+                                
+                                LogIn = {handleLogin}
                                 onChange = {handleChange}
                             />
                             :
@@ -209,7 +226,13 @@ class LogIn extends React.Component{
 
 }
 
-export default LogIn;
+export default connect(
+    (state) =>({
+    }),
+    (dispatch)=>({
+        UserActions: bindActionCreators(userActions,dispatch),
+    })
+)(LogIn);
 
 const Overlay = styled.div`
   position: fixed;
@@ -221,17 +244,21 @@ const Overlay = styled.div`
 `
 
 const LoginTem = styled.main`
+
+    display:flex;
+    flex-direction: column;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 25rem;
+    width: 21rem;
     height:auto;
     border-radius: 10px;
     background-color: white;
     box-shadow: 0px 3px 6px rgba(0,0,0,0.16);
 `
 const Title = styled.div`
+
     display:flex;
     width:100%;
 `

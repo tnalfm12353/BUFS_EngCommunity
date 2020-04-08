@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import bufs.english.english_community.sign.dto.LoginDTO;
 import bufs.english.english_community.sign.entity.User;
 public interface UserRepository extends JpaRepository<User,Long>{
    
@@ -28,4 +29,6 @@ public interface UserRepository extends JpaRepository<User,Long>{
     //아이디 중복 확인
     @Query(value = "select id from User where id =:id", nativeQuery = true)
     String ValidID(@Param("id") String id);
+
+    User findById(String id);
 }

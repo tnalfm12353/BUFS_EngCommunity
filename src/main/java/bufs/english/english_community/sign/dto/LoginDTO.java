@@ -27,11 +27,27 @@ public class LoginDTO {
     @Setter
     @Getter
     @NoArgsConstructor
-    public static class Userinfo{
+    public static class SignUp{
         private String id;
         private String pw;
         private String nickname;
     }
 
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    public static class Login{
+        private String id;
+        private String pw;
+    }
+    
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    public static class Userinfo{
+        private String code;
+        private String id;
+        private String nickname;
+    }
     
 }

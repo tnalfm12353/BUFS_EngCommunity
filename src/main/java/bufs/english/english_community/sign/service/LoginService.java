@@ -17,12 +17,12 @@ public class LoginService{
     ModelMapper modelmapper;
     
 
-    public boolean SignUp(LoginDTO.Userinfo userinfo){
+    public boolean SignUp(LoginDTO.SignUp signup){
         userRepository.save(
             User.builder()
-                .id(userinfo.getId())
-                .pw(userinfo.getPw())
-                .nickname(userinfo.getNickname())
+                .id(signup.getId())
+                .pw(signup.getPw())
+                .nickname(signup.getNickname())
                 .build()
         );
 
@@ -39,11 +39,20 @@ public class LoginService{
 
     public String ValidID(LoginDTO.isExist being){
         String temp = userRepository.ValidID(being.getBeing());
-        System.out.println(temp);
         if(temp == null){
             return "true";
         }else
             return "false";
     }
-
+    public LoginDTO.Userinfo Login(LoginDTO.Login login){
+        LoginDTO.Userinfo userinfo;
+        User user = userRepository.findById(login.getId());
+        if(login.getPw().equals(user.getPw())){
+            userinfo = modelmapper.map(user,LoginDTO.Userinfo.class);
+        }else{
+            userinfo = null;
+        }
+        System.out.println(userinfo.getId()+userinfo.getCode());
+        return userinfo;
+    }
 }
