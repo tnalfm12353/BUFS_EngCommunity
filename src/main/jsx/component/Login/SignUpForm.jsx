@@ -24,6 +24,7 @@ const SignUpForm = ({id,pw,checkPw,nickname,
                 <Input type='password' name="checkPw"value={checkPw} onChange={onChange}required="required"/>
                 <Label>Confirm Password</Label>
                 <CheckedMark valid={validCP}>{validCP?"✓":"×"}</CheckedMark>
+                {validCP?null:<Span>비밀번호가 맞지 않습니다</Span>}
             </GroupDiv>
 
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
@@ -44,9 +45,10 @@ const LoginDiv = styled.div`
     flex:auto
 `
 const GroupDiv = styled.div`
-    flex-direction:row;
+    
     position:relative;
-    margin-bottom:2rem;
+    flex-basis:1;
+    margin-bottom:1rem;
 `
 const Input = styled.input`
     font-size:1.5rem;
@@ -104,7 +106,7 @@ const LoginBtn = styled.div`
 const CheckedMark = styled.div`
     position:absolute;
     top:2rem;
-    left:20rem;
+    left:18rem;
     font-size: 1.5rem;
     line-height: 1rem;
     margin-left: 1rem;

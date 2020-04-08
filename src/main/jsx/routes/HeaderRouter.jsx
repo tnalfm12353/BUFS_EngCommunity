@@ -1,13 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Home from '../component/Home.jsx';
-import About from '../component/About.jsx';
-import NotFound from '../component/NotFound.jsx';
-import Navi from '../container/Navi.jsx';
+import {Home, About, NotFound, Forum, Schedule} from './pages';
+import {Navi} from '../container'
 import Header from '../container/Header.jsx';
-import Forum from '../container/Forum.jsx';
-import Schedule from '../container/Schedule.jsx';
+
 const HeaderRouter = ()=>{
     
        return (

@@ -17,18 +17,27 @@
     "axios": "^0.19.1",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.0",
+    "debounce": "^1.2.0",
     "file-loader": "^5.0.2",
+    "immutable": "^4.0.0-rc.12",
     "react": "^16.12.0",
     "react-autosize-textarea": "^7.0.0",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.5.3",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-textarea-autosize": "^7.1.2",
+    "redux": "^4.0.5",
+    "redux-actions": "^2.6.5",
+    "redux-pender": "^2.0.12",
     "style-loader": "^1.1.1",
     "styled-components": "^4.4.1",
     "url-loader": "^3.0.0",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "redux-devtools": "^3.5.0"
+  }
 }

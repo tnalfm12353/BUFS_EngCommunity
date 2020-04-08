@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LoginForm = ({id,pw ,onChange}) =>{
+const LoginForm = ({id,pw ,onChange,LogIn}) =>{
     return(
         <LoginDiv>
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
@@ -9,10 +9,10 @@ const LoginForm = ({id,pw ,onChange}) =>{
                 <Label>ID</Label>
             </GroupDiv>
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
-                <Input type='password' name="pw" value={pw} onChange={onChange}required="required"/>
+                <Input type='password' name="pw" value={pw} onChange={onChange} required="required"/>
                 <Label>Password</Label>
             </GroupDiv>
-            <LoginBtn >Log In</LoginBtn>
+            <LoginBtn onClick={()=>{LogIn()}}>Log In</LoginBtn>
         </LoginDiv>
     );
 }
