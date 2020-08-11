@@ -4,127 +4,115 @@ import styled from 'styled-components';
 
 import Logo from '../../webapp/img/bufs.jpg';
 
-import LogIn from './LogIn.jsx';
+import Authentic from './Authentic.jsx';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as userActions from '../redux/modules/LoginUser';
+
+import {Navi} from './';
+
 class Header extends React.Component {
 
     constructor(props){
         super(props);
         this.state={
-            loginhandler: false,
-            LogInComponent: false,
-            SignUpComponent: false,
+          
         }
 
-        this.handleLogIn = this.handleLogIn.bind(this);
-        this.handleSignUp = this.handleSignUp.bind(this);
-        this.handleClose = this.handleClose.bind(this);
     }
-    handleLogIn(e) {
-        this.setState({
-            loginhandler: true,
-            LogInComponent:true,
-            SignUpComponent:false,
-        });
-    }
-
-    handleSignUp(e) {
-        this.setState({
-            loginhandler: true,
-            LogInComponent:false,
-            SignUpComponent:true,
-        });
-    }
-
-    handleClose(){
-        this.setState({
-            loginhandler: false,
-            LogInComponent:false,
-            SignUpComponent:false,
-        });
-    }
-
+    
     render() {
-        const {LogInComponent, SignUpComponent,loginhandler} =this.state;
-        const {handleClose, handleLogIn, handleSignUp} = this;
+        const sessionExist = this.props.sessionExist;
+        const {nickname} = this.props.userInfo.toJS();
         return (
-        <Container>
+        <HeaderContainer>
+            <Empty>
+                <SubNavi>
+                    <SubNaviSpan></SubNaviSpan>
+                    <SubNaviSpan></SubNaviSpan>
+                    <SubNaviSpan></SubNaviSpan>
+                </SubNavi>
+            </Empty>
             <Link to="/"><LogoImg src={Logo} alt=""/></Link>
-            <Empty/>
-            <LoginDiv>
-                <Sty_Button active={LogInComponent} onClick={handleLogIn}>Log In</Sty_Button>
-                <Sty_Button active={SignUpComponent}onClick={handleSignUp}>Sign Up</Sty_Button>
-                {
-                    loginhandler? 
-                        <LogIn
-                            isLogIn ={LogInComponent}
-                            isSignUp ={SignUpComponent}
-                            onLogin = {handleLogIn}
-                            onSignUp = {handleSignUp}
-                            onClose={handleClose}
-                        />
-                    : null
-                }
-            </LoginDiv>
-        </Container>
+            <HeaderNavi/>
+            {sessionExist?
+                <p>{nickname}님 환영합니다.</p> //추후 회원 정보 수정,탈퇴 등등 component 생성하자.
+                :
+                <Authentic/>
+            }
+        </HeaderContainer>
         );
     }
 }
-export default Header;
 
 
-const Container = styled.div`
+
+const HeaderContainer = styled.div`
+    display:flex;
+    position:absolute;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: saturate(180%) blur(3px);
+    height:50px;
     width: 100%;
-    // border: 1px solid #D941C5;
-    display:inline-flex;
     align-items:center;
-    justify-content:space-around;
+    justify-content:space-between;
+    z-index:10;
+`
+
+const Empty = styled.div`
+    display: none;
+    @media only screen and (max-width: 767px){
+        display : block;
+        top: 0;
+        left: 0;
+        width: 45px;
+        height: 50px;
+    }
+
+`
+const SubNavi = styled.div`
+    display: none;
+    
+    @media only screen and (max-width: 767px){
+        display : inline;
+        position: absolute;
+        top: 1.2vh;
+        left: 1.6vw;
+        padding-bottom: 2vh;
+        z-index:6;
+   }
+`
+const SubNaviSpan = styled.span`
+    height: 2px;
+    width: 30px;
+    background-color: #636466;
+    display: block;
+    margin: 5px 0px 8.5px 0px;
+    transition: 0.7s ease-in-out;
+    transform: none;
 `
 
 const LogoImg = styled.img`
-    height:3rem;
-    float:right;
-    margin:0 auto;
+    width: 210px;
+    height: 50px;
+
+    @media only screen and (max-width: 767px){
+        width : 160px;
+        height: 40px;
+        margin:0 auto;
+
+   }
 `
-const Empty = styled.div`
-    flex-grow:2;
-    // border: 1px solid #D941C5;
-    height:100%;
-    width:10rem;
-`
-
-const LoginDiv = styled.div`
-    // border: 1px solid #D94; 
-    padding:1rem;
-    align-self:auto;
-    flex-grow:0;
-    flex-shirink:0;
-` 
-
-//추후 애니메이션 넣기. 
-const Sty_Button =styled.button` 
-    border: 1px solid #C7CED5;
-    background-color:white; 
-    padding-left:5px;
-    padding-right:5px;
-    font-size: 10pt; 
-    font-weight:bold;
-    text-align:center;
-
-    border-color: ${props=>props.active? '#ffca08':'#C7CED5'};
-    color: ${props=>props.active? '#ffca08':'gray'};
-
-    &:hover {
-        border-color: #ffca08;
-        background-color: white;
-        color: #ffca08;
-    }
-    
+const HeaderNavi = styled(Navi)`
 `
 
-const LoginContainer = styled.section`
-    width:20rem;
-    height:auto;
-
-
-    border: 1px solid #ffca08;
-`
+export default connect(
+    (state) =>({
+        userInfo : state.LoginUser.get('userInfo'),
+        sessionExist : state.LoginUser.get('sessionExist'),
+    }),
+    (dispatch)=>({
+        UserActions: bindActionCreators(userActions,dispatch)
+    })
+)(Header);

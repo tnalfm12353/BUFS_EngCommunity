@@ -9,7 +9,7 @@ const LoginForm = ({id,pw ,onChange,LogIn}) =>{
                 <Label>ID</Label>
             </GroupDiv>
             <GroupDiv onClick={(e)=>e.stopPropagation()}>
-                <Input type='password' name="pw" value={pw} onChange={onChange} required="required"/>
+                <Input type='password' name="password" value={pw} onChange={onChange} required="required"/>
                 <Label>Password</Label>
             </GroupDiv>
             <LoginBtn onClick={()=>{LogIn()}}>Log In</LoginBtn>
@@ -47,6 +47,8 @@ const Label = styled.label`
     color:#999; 
     font-size:1.5rem;
     font-weight:normal;
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+    font-family: 'Caveat', cursive;
     position:absolute;
     pointer-events:none;
     top:25px;
@@ -66,6 +68,8 @@ const Label = styled.label`
 `
 
 const LoginBtn = styled.div`
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+    font-family: 'Caveat', cursive;
     font-size :2rem;
     text-align: center;
     font-weight:bold;

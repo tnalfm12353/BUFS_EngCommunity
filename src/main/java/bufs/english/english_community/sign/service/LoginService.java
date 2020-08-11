@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 
 import bufs.english.english_community.sign.dao.UserRepository;
 import bufs.english.english_community.sign.dto.LoginDTO;
-import bufs.english.english_community.sign.entity.User;
+import bufs.english.english_community.sign.entity.englishuser;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class LoginService{
 
     public boolean SignUp(LoginDTO.SignUp signup){
         userRepository.save(
-            User.builder()
+            englishuser.builder()
                 .id(signup.getId())
                 .pw(signup.getPw())
                 .nickname(signup.getNickname())
@@ -46,13 +46,13 @@ public class LoginService{
     }
     public LoginDTO.Userinfo Login(LoginDTO.Login login){
         LoginDTO.Userinfo userinfo;
-        User user = userRepository.findById(login.getId());
+        englishuser user = userRepository.findById(login.getId());
         if(login.getPw().equals(user.getPw())){
             userinfo = modelmapper.map(user,LoginDTO.Userinfo.class);
         }else{
             userinfo = null;
         }
-        System.out.println(userinfo.getId()+userinfo.getCode());
+        System.out.println("userID = "+userinfo.getId()+"\nuserCode = "+userinfo.getCode());
         return userinfo;
     }
 }

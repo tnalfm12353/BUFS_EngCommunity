@@ -27,9 +27,9 @@ public class TodoService{
         todoMapper.DeleteTodo(todoDTO);
     }
 
-    public List<TodoDTO> SelectTodo() throws Exception{
+    public List<TodoDTO> SelectTodo(TodoDTO todoDTO) throws Exception{
         
-        List<TodoDTO> todolist =todoMapper.SelectTodo();
+        List<TodoDTO> todolist =todoMapper.SelectTodo(todoDTO);
 
         return todolist;
     }

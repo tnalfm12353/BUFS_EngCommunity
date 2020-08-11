@@ -10,11 +10,18 @@ package bufs.english.english_community.todolist.dto;
    정리하면 DTO는 Database에서 Data를 얻어 Service나 Controller 등으로 보낼 때 사용하는 객체를 말한다. 
 */
 public class TodoDTO {
+    private long code;
     private int id;
     private String text;
     private boolean checked;
     private String color;
 
+    public void setCode(int code){
+        this.code = code;
+    }
+    public long getCode(){
+        return this.code;
+    }
     public int getId() {
         return this.id;
     }

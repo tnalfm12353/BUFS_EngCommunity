@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import bufs.english.english_community.sign.dto.LoginDTO;
-import bufs.english.english_community.sign.entity.User;
-public interface UserRepository extends JpaRepository<User,Long>{
+import bufs.english.english_community.sign.entity.englishuser;
+public interface UserRepository extends JpaRepository<englishuser,Long>{
    
     /*
         1. 쿼리 메소드 - 메소드 이름으로 쿼리를 생성하는 방식
@@ -24,11 +24,11 @@ public interface UserRepository extends JpaRepository<User,Long>{
         nativeQuery 속성은 true = SQL, false = JPQL
     */
     //닉네임 중복 확인
-    @Query(value = "select nickname from User where nickname =:nickname ", nativeQuery = true)
+    @Query(value = "select nickname from englishuser where nickname =:nickname ", nativeQuery = true)
     String ValidNickname(@Param("nickname") String nickname);
     //아이디 중복 확인
-    @Query(value = "select id from User where id =:id", nativeQuery = true)
+    @Query(value = "select id from englishuser where id =:id", nativeQuery = true)
     String ValidID(@Param("id") String id);
 
-    User findById(String id);
+    englishuser findById(String id);
 }

@@ -1,8 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
-import {Home, About, NotFound, Forum, Schedule} from './pages';
-import {Navi} from '../container'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {Home, About, NotFound, Community, Schedule} from './pages';
+
 import Header from '../container/Header.jsx';
 
 const HeaderRouter = ()=>{
@@ -10,19 +11,22 @@ const HeaderRouter = ()=>{
        return (
             <Router>
                 <Header/>
-                <Navi/>
-                <div>
+                <WebPages>
                     <Switch>
                         <Route exact path = "/" component={Home}/>
                         <Route path = "/About" component={About}/>
-                        <Route path="/forum" component={Forum}/>
+                        <Route path="/Community" component={Community}/>
                         <Route path="/Schedule" component={Schedule}/>
                         <Route component ={NotFound}/>
                     </Switch>
-                </div>
+                </WebPages>
             </Router>
         );
     
 }
 
 export default HeaderRouter;
+
+const WebPages = styled.div`
+    padding-top:60px;
+`

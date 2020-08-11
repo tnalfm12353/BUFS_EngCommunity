@@ -66,6 +66,8 @@ const Input = styled.input`
 `
 
 const Label = styled.label`
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+    font-family: 'Caveat', cursive;
     color:#999; 
     font-size:1.5rem;
     font-weight:normal;
@@ -88,9 +90,12 @@ const Label = styled.label`
 `
 
 const LoginBtn = styled.div`
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+    font-family: 'Caveat', cursive;
     font-size :2rem;
     text-align: center;
     font-weight:bold;
+    
     color:gray;
     width:80%;
     margin:0 auto;

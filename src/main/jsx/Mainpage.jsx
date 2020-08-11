@@ -3,12 +3,14 @@ import '../webapp/css/font.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Styled from 'styled-components';
-
+import GlobalStyle from './lib/styles/globalStyle';
 import HeaderRouter from'./routes/HeaderRouter.jsx';
 import configureStore from './redux/ConfigStore';
 import { Provider } from 'react-redux';
 
 const store = configureStore();
+
+
 
 class MainPage extends React.Component {
     render() {
@@ -22,14 +24,14 @@ class MainPage extends React.Component {
 }
 
 const Layout = Styled.div `
-    margin: 0 auto;
     display: flex;
-    width: 100%;
-    flex-flow: row wrap;
+    background-color: #fafafa;
+
 `
 
 ReactDOM.render(
     <Provider store = {store}>
+        <GlobalStyle/>
         <MainPage/>
     </Provider> , document.getElementById('root'));
 

@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="bufs.english.english_community.todolist.dao.TodoMapper">
     
     <resultMap id="TodoList" type="bufs.english.english_community.todolist.dto.TodoDTO">
+        <result column="Todo_code" property="code"/>
         <result column="Todo_id" property="id"/>
         <result column="Todo_text" property="text"/>
         <result column="Todo_checked" property="checked"/>
@@ -13,19 +14,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <insert id="InsertTodo">
-        INSERT Into Todolist values(#{id},#{text},#{checked},#{color});
+        INSERT Into Todolist values(#{code},#{id},#{text},#{checked},#{color});
     </insert>
 
     <delete id="DeleteTodo">
-        Delete from Todolist where id=#{id};
+        Delete from Todolist where code=#{code} and id=#{id};
     </delete>
 
     <update id="UpdateTodo">
-        Update Todolist set checked = if(checked is true,'0','1') where id =#{id}
+        Update Todolist set checked = if(checked is true,'0','1') where code=#{code} and id =#{id}
     </update>
 
     <select id="SelectTodo" resultMap="TodoList">
-        Select * from Todolist;
+        Select * from Todolist where code=#{code};
     </select>
 </mapper>
-

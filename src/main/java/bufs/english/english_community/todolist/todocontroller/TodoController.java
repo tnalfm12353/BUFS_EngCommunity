@@ -44,7 +44,7 @@ public class TodoController{
             ----그런데 이걸 여기서 해결할려하면 안되고 dao에 넣어야 service를 두번왔다갔다하는 일이 안생김.----
                                             추후에 개선합시다!
         */
-        final List<TodoDTO> todolist =  todoservice.SelectTodo();
+        final List<TodoDTO> todolist =  todoservice.SelectTodo(dto);
 
         return todolist;
     }
@@ -53,7 +53,7 @@ public class TodoController{
     public List<TodoDTO> Delete(@RequestBody final TodoDTO dto)throws Exception{
         todoservice.DeletTodo(dto);
 
-        final List<TodoDTO> todolist =  todoservice.SelectTodo();
+        final List<TodoDTO> todolist =  todoservice.SelectTodo(dto);
 
         return todolist;
     }
@@ -62,7 +62,7 @@ public class TodoController{
     public List<TodoDTO> Update(@RequestBody final TodoDTO todoDTO)throws Exception{
         todoservice.UpdateTodo(todoDTO);
 
-        final List<TodoDTO> todolist =  todoservice.SelectTodo();
+        final List<TodoDTO> todolist =  todoservice.SelectTodo(todoDTO);
         
         return todolist;
     }
@@ -72,10 +72,10 @@ public class TodoController{
         HTTP 응답데이터(body)에 자바 객체가 매핑되어 전달 된다고 한다. 
     */
     @PostMapping("TodoSelect")
-    public List<TodoDTO> Select()throws Exception{
+    public List<TodoDTO> Select(@RequestBody final TodoDTO todoDTO)throws Exception{
        
         /* 생성자 때문에 만듬 */
-        final List<TodoDTO> todolist = todoservice.SelectTodo();
+        final List<TodoDTO> todolist = todoservice.SelectTodo(todoDTO);
 
         return todolist;
     }
